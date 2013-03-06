@@ -5,7 +5,7 @@ Spree::HomeController.class_eval do
   def index
     @searcher = Spree::Config.searcher_class.new(params)
     @products = @searcher.retrieve_products
-    @latest_products = Spree::Product.order("available_on DESC").limit(16)
+    @latest_products = Spree::Product.available.order("available_on DESC").limit(16)
     render :template => "spree/pages/home"
   end
 
