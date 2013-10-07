@@ -1,13 +1,50 @@
-<div class='toolbar'>
-  <ul class='actions'>
-    <li>
-      <p><%= button_link_to t('.new_page'), new_object_url, :icon => 'add' %></p>
-    </li>
-  </ul>
-  <br class='clear' />
-</div>
+<% content_for :page_title do %>
+  <%= t(:listing_pages) %>
+<% end %>
 
-<h1><%= t('.listing_pages') %></h1>
+<% content_for :page_actions do %>
+  <li id="new_page_link">
+    <%= button_link_to t(:new_page), new_admin_page_url,:icon => 'icon-plus', :id => 'admin_new_page' %>
+  </li>
+<% end %>
+
+<% content_for :table_filter_title do %>
+  <%= t(:search) %>
+<% end %>
+
+<% content_for :table_filter do %>
+  <div data-hook="admin_products_sidebar">
+
+    <%= search_form_for [:admin, @search] do |f| %>
+
+        <%- locals = {:f => f} %>
+
+        <div data-hook="admin_products_index_search">
+          <div class="alpha eight columns omega">
+            <div class="field">
+              <%= f.label :title_cont, t('page.title') %>
+              <%= f.text_field :title_cont, :size => 25 %>
+            </div>
+          </div>
+          <div class="eight columns">
+            <div class="field">
+              <%= f.label :path_cont, t('page.path') %>
+              <%= f.text_field :path_cont, :size => 25 %>
+            </div>
+          </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="form-buttons actions filter-actions" data-hook="admin_products_index_search_buttons">
+          <%= button t(:search), 'icon-search' %>
+        </div>
+    <% end %>
+  </div>
+<% end %>
+
+
+<%= paginate @collection %>
 
 <table class="index sortable" data-sortable-link="<%= update_positions_admin_pages_url -%>">
   <thead>
@@ -16,7 +53,7 @@
       <th><%= sort_link @search, :path, t("page.path") %></th>
       <th><%= sort_link @search, :accessible, t("page.accessible") %></th>
       <th><%= sort_link @search, :visible, t("page.visible") %></th>
-      <th><%= t("action") %></th>
+      <th data-hook="admin_posts_index_header_actions" class="actions"></th>
   </tr>
   </thead>
   <tbody>
@@ -26,11 +63,11 @@
       <td><%= page.path %></td>
       <td><%= page.accessible %></td>
       <td><%= page.visible %></td>
-      <td>
+      <td class="actions" data-hook="admin_pages_index_row_actions">
         <%= link_to_with_icon :accept, t('preview'), page.path, :onclick => 'window.open(this.href);return false;' %> &nbsp;
         <%= link_to_with_icon :pages, t('page.contents'), admin_page_contents_path(page) %> &nbsp;
-        <%= link_to_edit page %> &nbsp;
-        <%= link_to_delete page %>
+        <%= link_to_edit page, :no_text => true, :class => 'edit' %> &nbsp;
+        <%= link_to_delete page, :no_text => true %>
       </td>
     </tr>
     <% end %>
@@ -38,20 +75,3 @@
 </table>
 
 <%= paginate @collection %>
-
-<% content_for :sidebar do %>
-  <div class="box">
-    <h3><%= t(:search) %></h3>
-    <%= search_form_for [:admin, @search] do |f| %>
-      <p>
-        <%= f.label :title_cont, t('page.title') %><br />
-        <%= f.text_field :title_cont, :size => 25 %>
-      </p>
-      <p>
-        <%= f.label :path_cont, t('page.path') %><br />
-        <%= f.text_field :path_cont, :size => 25 %>
-      </p>
-      <p><%= button t("search") %></p>
-    <% end %>
-  </div>
-<% end %>
