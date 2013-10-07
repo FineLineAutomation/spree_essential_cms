@@ -1,6 +1,6 @@
 <%= form.field_container :title do %>
   <%= form.label :title, t('content.title') %><br />
-  <%= form.text_field :title, :class => "title"  %>
+  <%= form.text_field :title, :class => "title fullwidth"  %>
   <%= error_message_on :content, :title %>
 <% end %>
 
@@ -22,7 +22,7 @@
 
   <%= form.field_container :context do %>
     <%= form.label :context, t('content.context') %><br />
-    <%= form.text_field :context, :class => "text"  %>
+    <%= form.text_field :context, :class => "text fullwidth"  %>
     <%= error_message_on :content, :context %>
   <% end %>
 
@@ -45,13 +45,13 @@
 
   <%= form.field_container :link do %>
     <%= form.label :link, t('content.link') %><br />
-    <%= form.text_field :link, :class => "text"  %>
+    <%= form.text_field :link, :class => "text fullwidth" %>
     <%= error_message_on :content, :link %>
   <% end %>
 
   <%= form.field_container :link_text do %>
     <%= form.label :link_text, t('content.link_text') %><br />
-    <%= form.text_field :link_text, :class => "text"  %>
+    <%= form.text_field :link_text, :class => "text fullwidth"  %>
     <%= error_message_on :content, :link_text %>
   <% end %>
 
