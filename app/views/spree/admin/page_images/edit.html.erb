@@ -5,14 +5,21 @@
 <% end %>
 
 <%= form_for([:admin, @page.id, @page_image], :url => admin_page_image_url(@page, @page_image), :html => { :multipart => true }) do |f| %>
-    <p>
-      <%= label_tag ("thumbnail") %>:<br/>
-      <%= link_to(image_tag(@page_image.attachment.url(:mini)), @page_image.attachment.url(:product)) %>
-    </p>
+  <fieldset>
+    <legend><%= (t(:editing_image) + " - #{@page_image.attachment_file_name}").html_safe %></legend>
+
+    <div class="field">
+      <%= label_tag (:preview) %>:<br/>
+      <div style="text-align:center;">
+        <%= link_to(image_tag(@page_image.attachment.url(:medium)), @page_image.attachment.url(:large)) %>
+      </div>
+    </div>
     <%= render "form", :form => f %>
-  </table>
-  <p class="form-buttons">
-    <%= button t("update") %>
-    or <%= link_to t("cancel"), admin_page_images_url(@page), :id => "cancel_link" %>
-  </p>
+
+    <div class="filter-actions actions">
+      <%= button t(:update), 'icon-refresh' %>
+      <span class="or"><%= t(:or) %></span>
+      <%= button_link_to t(:cancel), admin_page_images_url(@page), :icon => 'icon-remove', :id => "cancel_link" %>
+    </div>
+  </fieldset>
 <% end %>
